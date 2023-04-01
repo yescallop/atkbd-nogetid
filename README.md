@@ -1,17 +1,43 @@
 # atkbd-nogetid
 
-A Linux kernel patch that fixes keyboard initialization on Lenovo Yoga 14s 2021 / 小新Pro 14 2021 / Yoga Slim 7 Pro / IdeaPad Slim 7 Pro (14", Intel, Tiger Lake) laptops.
+A Linux kernel patch that fixes slow keyboard initialization on some Lenovo Yoga / XiaoXinPro / IdeaPad (14", Intel) laptops.
 
-This patch is only tested on Yoga 14sIHU 2021. However, it would presumably work on other machines listed below, as they share the same BIOS firmware (with version `FJCN\d\dWW`).
+This patch is only tested on Yoga 14sIHU 2021. However, it would presumably work on other machines listed below.
 
-## Supported machines
+## Presumably supported machines
 
-- `82FX`: Yoga Slim 7 Pro 14ITL5
-- `82G2`: Yoga 14sITL 2021
-- `82GH`: Lenovo 小新Pro 14ITL 2021
-- `82NC`: Yoga 14sIHU 2021 / Lenovo 小新Pro 14IHU 2021 / Yoga Slim 7 Pro 14IHU5
-- `82NH`: Yoga 14sIHU 2021 O / Yoga Slim 7 Pro 14IHU5 O
-- `82QT`: IdeaPad Slim 7 Pro 14IHU5 
+Reports and/or illustrations (dmesg logs) of the problem are included in the footnotes.
+
+- `82D1`: Yoga Slim 9 14ITL5[^82D1.1][^82D1.2]
+- `82D2`: IdeaPad Slim 9 14ITL5[^82D2.1][^82D2.2][^82D2.3]
+- `82FX`: Yoga Slim 7 Pro 14ITL5[^82FX.1][^82FX.2]
+- `82G2`: Yoga 14sITL 2021[^82G2+82NC]
+- `82GH`: Lenovo XiaoXinPro 14ITL 2021[^82GH.1][^82GH.2]
+- `82NC`: Yoga 14sIHU 2021[^82G2+82NC] / Lenovo XiaoXinPro 14IHU 2021[^82NC.1][^82NC.2] / Yoga Slim 7 Pro 14IHU5[^82NC.3]
+- `82NH`: Yoga 14sIHU 2021 O / Yoga Slim 7 Pro 14IHU5 O[^82NH]
+- `82QT`: IdeaPad Slim 7 Pro 14IHU5[^82QT.1][^82QT.2][^82QT.3]
+- `82TK`: Yoga Pro 14s IAH7[^82TK.1] / Yoga Slim 7 ProX 14IAH7[^82TK.2][^82TK.3]
+
+[^82D1.1]: https://wiki.archlinux.org/title/Lenovo_Yoga_Slim_9_(Intel)#Keyboard
+[^82D1.2]: https://linux-hardware.org/?probe=be0654391c&log=dmesg
+[^82D2.1]: https://linux-hardware.org/?probe=92f4dfc282&log=dmesg
+[^82D2.2]: https://linux-hardware.org/?probe=90e142cbe1&log=dmesg
+[^82D2.3]: https://linux-hardware.org/?probe=a8d6ad51af&log=dmesg
+[^82FX.1]: https://bbs.archlinux.org/viewtopic.php?id=273790
+[^82FX.2]: http://linux-hardware.org/?probe=1b8f927465&log=dmesg
+[^82G2+82NC]: https://wiki.archlinux.org/title/Lenovo_Yoga_14s_2021#Keyboard_not_functioning_properly
+[^82GH.1]: https://forum.suse.org.cn/t/topic/14779
+[^82GH.2]: http://linux-hardware.org/?probe=bb63ba3801&log=dmesg
+[^82NC.1]: https://zhuanlan.zhihu.com/p/428327818
+[^82NC.2]: http://linux-hardware.org/?probe=bb63ba3801&log=dmesg
+[^82NC.3]: https://askubuntu.com/questions/1352604/ubuntu-20-04-keyboard-not-working-on-lenovo-yoga-slim-7i-pro#comment2524117_1359483
+[^82NH]: https://ubuntuforums.org/showthread.php?t=2481173
+[^82QT.1]: https://discussion.fedoraproject.org/t/screen-and-keyboard-issues/76409
+[^82QT.2]: https://linux-hardware.org/?probe=a6af7624cd&log=dmesg
+[^82QT.3]: https://linux-hardware.org/?probe=572cb48d3c&log=dmesg
+[^82TK.1]: https://zhuanlan.zhihu.com/p/583792789
+[^82TK.2]: https://forums.fedoraforum.org/showthread.php?329036-Laptop-keyboard-is-not-working
+[^82TK.3]: https://discussion.fedoraproject.org/t/issue-with-the-keyboard-not-working-on-touch-screen-laptop/71036
 
 ## Installation on Arch Linux
 
@@ -34,11 +60,9 @@ You may want to replace it with another version. It'll be automatically patched 
 
 A similar problem on HP Spectre x360 13-aw2xxxng had a workaround provided by Anton Zhilyaev ([forum][2], [patch][3]). This workaround, however, turns out to work only once in a while on Yoga 14sIHU 2021.
 
-By analyzing the logs ([without patch][4], [with Anton's patch][5]), we can see that this i8042 implementation exhibits more erroneous behaviors in response to the `GETID` command than the HP one did. Not only does it sometimes deassert the interrupt after the ACK byte is read, but it also returns invalid ID bytes (containing only one byte) almost always.
+By analyzing the logs ([without patch][4], [with Anton's patch][5]), we can see that this i8042 implementation exhibits more erroneous behaviors in response to the `GETID` command than the HP one did. Not only does it sometimes deassert the interrupt after the ACK byte is read, but it also returns invalid ID bytes (containing only one byte) almost always (which is why Anton's patch doesn't really work).
 
-As a result, it usually takes more time, or possibly forever for the keyboard to initialize on the affected machines.
-
-The patch included in this repo makes the `atkbd_probe` function set the keyboard ID to `0xab83` without sending a `GETID` command. This should work in the most cases since the affected machines are laptops.
+The patch included in this repo makes the `atkbd_probe` function set the keyboard ID directly to `0xab83` without sending a `GETID` command. This should work in the most cases since the affected machines are laptops.
 
 [2]: https://bbs.archlinux.org/viewtopic.php?pid=1953190#p1953190
 [3]: https://patchwork.kernel.org/project/linux-input/patch/20210201160336.16008-1-anton@cpp.in/
