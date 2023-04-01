@@ -2,9 +2,9 @@
 
 A Linux kernel patch that fixes slow keyboard initialization on some Lenovo Yoga / XiaoXinPro / IdeaPad (14", Intel) laptops.
 
-This patch is only tested on Yoga 14sIHU 2021. However, it would presumably work on other machines listed below.
-
 ## Presumably supported machines
+
+This patch is tested only on the *italicized machines*. However, it would presumably work on other machines listed below. If you find it working on yours, you can request to mark it as so by creating an issue.
 
 Reports and/or illustrations (dmesg logs) of the problem are included in the footnotes.
 
@@ -13,7 +13,7 @@ Reports and/or illustrations (dmesg logs) of the problem are included in the foo
 - `82FX`: Yoga Slim 7 Pro 14ITL5[^82FX.1][^82FX.2]
 - `82G2`: Yoga 14sITL 2021[^82G2+82NC]
 - `82GH`: Lenovo XiaoXinPro 14ITL 2021[^82GH.1][^82GH.2]
-- `82NC`: Yoga 14sIHU 2021[^82G2+82NC] / Lenovo XiaoXinPro 14IHU 2021[^82NC.1][^82NC.2] / Yoga Slim 7 Pro 14IHU5[^82NC.3]
+- `82NC`: *Yoga 14sIHU 2021*[^82G2+82NC] / Lenovo XiaoXinPro 14IHU 2021[^82NC.1][^82NC.2] / Yoga Slim 7 Pro 14IHU5[^82NC.3]
 - `82NH`: Yoga 14sIHU 2021 O / Yoga Slim 7 Pro 14IHU5 O[^82NH]
 - `82QT`: IdeaPad Slim 7 Pro 14IHU5[^82QT.1][^82QT.2][^82QT.3]
 - `82TK`: Yoga Pro 14s IAH7[^82TK.1] / Yoga Slim 7 ProX 14IAH7[^82TK.2][^82TK.3]
