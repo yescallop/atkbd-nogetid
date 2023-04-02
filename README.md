@@ -16,7 +16,7 @@ Reports and/or illustrations (dmesg logs) of the problem are included in the foo
 - `82NC`: *Yoga 14sIHU 2021*[^82G2+82NC] / Lenovo XiaoXinPro 14IHU 2021[^82NC.1][^82NC.2] / Yoga Slim 7 Pro 14IHU5[^82NC.3]
 - `82NH`: Yoga 14sIHU 2021 O / Yoga Slim 7 Pro 14IHU5 O[^82NH]
 - `82QT`: IdeaPad Slim 7 Pro 14IHU5[^82QT.1][^82QT.2][^82QT.3]
-- `82TK`: Yoga Pro 14s IAH7[^82TK.1] / Yoga Slim 7 ProX 14IAH7[^82TK.2][^82TK.3]
+- `82TK`: Yoga Pro 14s IAH7[^82TK.1] / Yoga Slim 7 ProX 14IAH7[^82TK.2][^82TK.3][^82TK.4]
 
 [^82D1.1]: https://wiki.archlinux.org/title/Lenovo_Yoga_Slim_9_(Intel)#Keyboard
 [^82D1.2]: https://linux-hardware.org/?probe=be0654391c&log=dmesg
@@ -38,6 +38,7 @@ Reports and/or illustrations (dmesg logs) of the problem are included in the foo
 [^82TK.1]: https://zhuanlan.zhihu.com/p/583792789
 [^82TK.2]: https://forums.fedoraforum.org/showthread.php?329036-Laptop-keyboard-is-not-working
 [^82TK.3]: https://discussion.fedoraproject.org/t/issue-with-the-keyboard-not-working-on-touch-screen-laptop/71036
+[^82TK.4]: https://bugzilla.kernel.org/show_bug.cgi?id=216994
 
 ## Installation on Arch Linux
 
@@ -60,7 +61,7 @@ You may want to replace it with another version. It'll be automatically patched 
 
 A similar problem on HP Spectre x360 13-aw2xxxng had a workaround provided by Anton Zhilyaev ([forum][2], [patch][3]). This workaround, however, turns out to work only once in a while on Yoga 14sIHU 2021.
 
-By analyzing the logs ([without patch][4], [with Anton's patch][5]), we can see that this i8042 implementation exhibits more erroneous behaviors in response to the `GETID` command than the HP one did. Not only does it sometimes deassert the interrupt after the ACK byte is read, but it also returns invalid ID bytes (containing only one byte) almost always (which is why Anton's patch doesn't really work).
+By analyzing the logs ([without patch][4], [with Anton's patch][5]), we can see that this i8042 implementation exhibits more erroneous behaviors in response to the `GETID` command than the HP one did. Not only does it sometimes fail to raise interrupts for the ID bytes, but it also returns invalid ID bytes (containing only one byte) almost always (which is why Anton's patch doesn't really work).
 
 The patch included in this repo makes the `atkbd_probe` function set the keyboard ID directly to `0xab83` without sending a `GETID` command. This should work in the most cases since the affected machines are laptops.
 
