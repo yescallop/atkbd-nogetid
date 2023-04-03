@@ -67,5 +67,5 @@ The patch included in this repo makes the `atkbd_probe` function set the keyboar
 
 [2]: https://bbs.archlinux.org/viewtopic.php?pid=1953190#p1953190
 [3]: https://patchwork.kernel.org/project/linux-input/patch/20210201160336.16008-1-anton@cpp.in/
-[4]: https://gist.githubusercontent.com/yescallop/5a97d010f226172fafab0933ce8ea8af/raw/623871fdf233bc96a551e27111976cbc266380ea/i8042-lenovo-82nc-patch-none.log
-[5]: https://gist.githubusercontent.com/yescallop/20de0b10410ec8a8c662eec7f8326569/raw/62b03331a54b3c0ba89a979a5d89db9e9e60dff5/i8042-lenovo-82nc-patch-anton.log
+[4]: https://gist.githubusercontent.com/yescallop/5a97d010f226172fafab0933ce8ea8af
+[5]: https://gist.githubusercontent.com/yescallop/20de0b10410ec8a8c662eec7f8326569
