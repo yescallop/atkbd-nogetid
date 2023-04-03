@@ -1,51 +1,128 @@
 --- a/atkbd.c
 +++ b/atkbd.c
-@@ -753,7 +753,6 @@ static void atkbd_deactivate(struct atkbd *atkbd)
- static int atkbd_probe(struct atkbd *atkbd)
- {
- 	struct ps2dev *ps2dev = &atkbd->ps2dev;
--	unsigned char param[2];
+@@ -65,6 +65,10 @@ static bool atkbd_terminal;
+ module_param_named(terminal, atkbd_terminal, bool, 0);
+ MODULE_PARM_DESC(terminal, "Enable break codes on an IBM Terminal keyboard connected via AT/PS2");
+ 
++static bool atkbd_nogetid;
++module_param_named(nogetid, atkbd_nogetid, bool, 0);
++MODULE_PARM_DESC(nogetid, "Do not probe the keyboard with the GETID command");
++
+ #define SCANCODE(keymap)	((keymap >> 16) & 0xFFFF)
+ #define KEYCODE(keymap)		(keymap & 0xFFFF)
+ 
+@@ -775,18 +779,18 @@ static int atkbd_probe(struct atkbd *atkbd)
+  */
+ 
+ 	param[0] = param[1] = 0xa5;	/* initialize with invalid values */
+-	if (ps2_command(ps2dev, param, ATKBD_CMD_GETID)) {
++	if (atkbd_nogetid || ps2_command(ps2dev, param, ATKBD_CMD_GETID)) {
  
  /*
-  * Some systems, where the bit-twiddling when testing the io-lines of the
-@@ -767,39 +766,7 @@ static int atkbd_probe(struct atkbd *atkbd)
- 				 "keyboard reset failed on %s\n",
- 				 ps2dev->serio->phys);
- 
--/*
-- * Then we check the keyboard ID. We should get 0xab83 under normal conditions.
-- * Some keyboards report different values, but the first byte is always 0xab or
-- * 0xac. Some old AT keyboards don't report anything. If a mouse is connected, this
-- * should make sure we don't try to set the LEDs on it.
-- */
--
--	param[0] = param[1] = 0xa5;	/* initialize with invalid values */
--	if (ps2_command(ps2dev, param, ATKBD_CMD_GETID)) {
--
--/*
 - * If the get ID command failed, we check if we can at least set the LEDs on
 - * the keyboard. This should work on every keyboard out there. It also turns
 - * the LEDs off, which we want anyway.
-- */
--		param[0] = 0;
--		if (ps2_command(ps2dev, param, ATKBD_CMD_SETLEDS))
--			return -1;
--		atkbd->id = 0xabba;
++ * If the GETID command failed or is avoided, we check if we can at least set
++ * the LEDs on the keyboard. This should work on every keyboard out there. It
++ * also turns the LEDs off, which we want anyway.
+  */
+ 		param[0] = 0;
+ 		if (ps2_command(ps2dev, param, ATKBD_CMD_SETLEDS))
+ 			return -1;
+ 		atkbd->id = 0xabba;
 -		return 0;
--	}
--
--	if (!ps2_is_keyboard_id(param[0]))
--		return -1;
--
--	atkbd->id = (param[0] << 8) | param[1];
--
--	if (atkbd->id == 0xaca1 && atkbd->translated) {
--		dev_err(&ps2dev->serio->dev,
--			"NCD terminal keyboards are only supported on non-translating controllers. "
--			"Use i8042.direct=1 to disable translation.\n");
--		return -1;
--	}
-+	atkbd->id = 0xab83;
++		goto deactivate;
+ 	}
  
- /*
+ 	if (!ps2_is_keyboard_id(param[0]))
+@@ -805,6 +809,7 @@ static int atkbd_probe(struct atkbd *atkbd)
   * Make sure nothing is coming from the keyboard and disturbs our
+  * internal state.
+  */
++deactivate:
+ 	if (!atkbd_skip_deactivate)
+ 		atkbd_deactivate(atkbd);
+ 
+@@ -1731,6 +1736,12 @@ static int __init atkbd_deactivate_fixup(const struct dmi_system_id *id)
+ 	return 1;
+ }
+ 
++static int __init atkbd_getid_fixup(const struct dmi_system_id *id)
++{
++	atkbd_nogetid = true;
++	return 1;
++}
++
+ /*
+  * NOTE: do not add any more "force release" quirks to this table.  The
+  * task of adjusting list of keys that should be "released" automatically
+@@ -1880,6 +1891,69 @@ static const struct dmi_system_id atkbd_dmi_quirk_table[] __initconst = {
+ 		},
+ 		.callback = atkbd_deactivate_fixup,
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82D1"),
++		},
++		.callback = atkbd_getid_fixup,
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82D2"),
++		},
++		.callback = atkbd_getid_fixup,
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82FX"),
++		},
++		.callback = atkbd_getid_fixup,
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82G2"),
++		},
++		.callback = atkbd_getid_fixup,
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82GH"),
++		},
++		.callback = atkbd_getid_fixup,
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82NC"),
++		},
++		.callback = atkbd_getid_fixup,
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82NH"),
++		},
++		.callback = atkbd_getid_fixup,
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82QT"),
++		},
++		.callback = atkbd_getid_fixup,
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "82TK"),
++		},
++		.callback = atkbd_getid_fixup,
++	},
+ 	{ }
+ };
+ 

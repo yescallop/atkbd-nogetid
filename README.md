@@ -4,7 +4,7 @@ A Linux kernel patch that fixes failed keyboard initialization on some Lenovo Yo
 
 ## Presumably supported machines
 
-This patch is tested only on the *italicized machines*. However, it would presumably work on other machines listed below. If you find it working on yours, you can request to mark it as so by creating an issue.
+This patch is tested only on the *italicized machines*. However, it would presumably work on other machines listed below or sharing the same problem. If you find it working on yours, you can request to mark it as so or add it into the list by creating an issue.
 
 Reports and/or illustrations (dmesg logs) of the problem are included in the footnotes.
 
@@ -52,6 +52,8 @@ mkinitcpio -P
 Then, remove all extra kernel parameters for `i8042` or `atkbd` from the boot loader.
 Reboot the laptop for the patch to take effect.
 
+Note: If your machine isn't listed above, add an extra kernel parameter `atkbd.nogetid` in the boot loader.
+
 The source file `atkbd.c` is currently at [c99e3ac][1], which corresponds to kernel version `6.1` and above.
 You may want to replace it with another version. It'll be automatically patched on installation.
 
@@ -63,7 +65,7 @@ A similar problem on HP Spectre x360 13-aw2xxxng had a workaround provided by An
 
 By analyzing the logs ([without patch][4], [with Anton's patch][5]), we can see that this i8042 implementation exhibits more erroneous behaviors in response to the `GETID` command than the HP one did. Not only does it sometimes fail to raise interrupts for some response bytes, but it also returns invalid ID bytes (containing only one byte) almost always (which is why Anton's patch doesn't really work).
 
-The patch included in this repo makes the `atkbd_probe` function set the keyboard ID directly to `0xab83` without sending a `GETID` command. This should work in the most cases since the affected machines are laptops.
+The patch included in this repo adds quirks in `atkbd` that skips the `GETID` command on the affected machines. This should work in the most cases since these machines are laptops.
 
 [2]: https://bbs.archlinux.org/viewtopic.php?pid=1953190#p1953190
 [3]: https://patchwork.kernel.org/project/linux-input/patch/20210201160336.16008-1-anton@cpp.in/
