@@ -16,7 +16,7 @@ Reports and/or illustrations (dmesg logs) of the problem are included in the foo
 - `82NC`: *Yoga 14sIHU 2021*[^82G2+82NC] / Lenovo XiaoXinPro 14IHU 2021[^82NC.1][^82NC.2] / Yoga Slim 7 Pro 14IHU5[^82NC.3]
 - `82NH`: Yoga 14sIHU 2021 O / Yoga Slim 7 Pro 14IHU5 O[^82NH]
 - `82QT`: IdeaPad Slim 7 Pro 14IHU5[^82QT.1][^82QT.2][^82QT.3]
-- `82TK`: Yoga Pro 14s IAH7[^82TK.1] / Yoga Slim 7 ProX 14IAH7[^82TK.2][^82TK.3][^82TK.4]
+- `82TK`: Yoga Pro 14s IAH7[^82TK.1] / *Yoga Slim 7 ProX 14IAH7*[^82TK.2][^82TK.3][^82TK.4]
 
 [^82D1.1]: https://wiki.archlinux.org/title/Lenovo_Yoga_Slim_9_(Intel)#Keyboard
 [^82D1.2]: https://linux-hardware.org/?probe=be0654391c&log=dmesg
