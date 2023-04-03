@@ -61,7 +61,7 @@ You may want to replace it with another version. It'll be automatically patched 
 
 A similar problem on HP Spectre x360 13-aw2xxxng had a workaround provided by Anton Zhilyaev ([forum][2], [patch][3]). This workaround, however, turns out to work only once in a while on Yoga 14sIHU 2021.
 
-By analyzing the logs ([without patch][4], [with Anton's patch][5]), we can see that this i8042 implementation exhibits more erroneous behaviors in response to the `GETID` command than the HP one did. Not only does it sometimes fail to raise interrupts for the ID bytes, but it also returns invalid ID bytes (containing only one byte) almost always (which is why Anton's patch doesn't really work).
+By analyzing the logs ([without patch][4], [with Anton's patch][5]), we can see that this i8042 implementation exhibits more erroneous behaviors in response to the `GETID` command than the HP one did. Not only does it sometimes fail to raise interrupts for some response bytes, but it also returns invalid ID bytes (containing only one byte) almost always (which is why Anton's patch doesn't really work).
 
 The patch included in this repo makes the `atkbd_probe` function set the keyboard ID directly to `0xab83` without sending a `GETID` command. This should work in the most cases since the affected machines are laptops.
 
