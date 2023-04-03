@@ -1,6 +1,6 @@
 # atkbd-nogetid
 
-A Linux kernel patch that fixes slow keyboard initialization on some Lenovo Yoga / XiaoXinPro / IdeaPad (14", Intel) laptops.
+A Linux kernel patch that fixes failed keyboard initialization on some Lenovo Yoga / XiaoXinPro / IdeaPad (14", Intel) laptops.
 
 ## Presumably supported machines
 
