@@ -45,7 +45,7 @@ Reports and/or illustrations (dmesg logs) of the problem are included in the foo
 ```bash
 pacman -S dkms linux-headers
 git clone https://github.com/yescallop/atkbd-nogetid
-dkms install atkbd-nogetid --force
+dkms install atkbd-nogetid
 mkinitcpio -P
 ```
 
