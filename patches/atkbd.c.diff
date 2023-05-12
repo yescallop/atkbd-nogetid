@@ -11,7 +11,7 @@
  #define SCANCODE(keymap)	((keymap >> 16) & 0xFFFF)
  #define KEYCODE(keymap)		(keymap & 0xFFFF)
  
-@@ -775,18 +779,18 @@ static int atkbd_probe(struct atkbd *atkbd)
+@@ -775,12 +779,12 @@ static int atkbd_probe(struct atkbd *atkbd)
   */
  
  	param[0] = param[1] = 0xa5;	/* initialize with invalid values */
@@ -28,22 +28,7 @@
   */
  		param[0] = 0;
  		if (ps2_command(ps2dev, param, ATKBD_CMD_SETLEDS))
- 			return -1;
- 		atkbd->id = 0xabba;
--		return 0;
-+		goto deactivate;
- 	}
- 
- 	if (!ps2_is_keyboard_id(param[0]))
-@@ -805,6 +809,7 @@ static int atkbd_probe(struct atkbd *atkbd)
-  * Make sure nothing is coming from the keyboard and disturbs our
-  * internal state.
-  */
-+deactivate:
- 	if (!atkbd_skip_deactivate)
- 		atkbd_deactivate(atkbd);
- 
-@@ -1731,6 +1736,12 @@ static int __init atkbd_deactivate_fixup(const struct dmi_system_id *id)
+@@ -1731,6 +1735,12 @@ static int __init atkbd_deactivate_fixup(const struct dmi_system_id *id)
  	return 1;
  }
  
@@ -56,7 +41,7 @@
  /*
   * NOTE: do not add any more "force release" quirks to this table.  The
   * task of adjusting list of keys that should be "released" automatically
-@@ -1880,6 +1891,69 @@ static const struct dmi_system_id atkbd_dmi_quirk_table[] __initconst = {
+@@ -1880,6 +1890,69 @@ static const struct dmi_system_id atkbd_dmi_quirk_table[] __initconst = {
  		},
  		.callback = atkbd_deactivate_fixup,
  	},
