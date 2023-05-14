@@ -9,7 +9,7 @@ This patch is tested only on the *italicized machines*. However, it would presum
 Reports and/or illustrations (dmesg logs) of the problem are included in the footnotes.
 
 - `82D1`: Yoga Slim 9 14ITL5[^82D1.1][^82D1.2]
-- `82D2`: IdeaPad Slim 9 14ITL5[^82D2.1][^82D2.2][^82D2.3]
+- `82D2`: IdeaPad Slim 9 14ITL5[^82D2.1][^82D2.2][^82D2.3][^82D2.4]
 - `82FX`: Yoga Slim 7 Pro 14ITL5[^82FX.1][^82FX.2]
 - `82G2`: Yoga 14sITL 2021[^82G2+82NC]
 - `82GH`: Lenovo XiaoXinPro 14ITL 2021[^82GH.1][^82GH.2]
@@ -20,9 +20,10 @@ Reports and/or illustrations (dmesg logs) of the problem are included in the foo
 
 [^82D1.1]: https://wiki.archlinux.org/title/Lenovo_Yoga_Slim_9_(Intel)#Keyboard
 [^82D1.2]: https://linux-hardware.org/?probe=be0654391c&log=dmesg
-[^82D2.1]: https://linux-hardware.org/?probe=92f4dfc282&log=dmesg
-[^82D2.2]: https://linux-hardware.org/?probe=90e142cbe1&log=dmesg
-[^82D2.3]: https://linux-hardware.org/?probe=a8d6ad51af&log=dmesg
+[^82D2.1]: https://www.reddit.com/r/Fedora/comments/yjn1xd/lenovo_laptop_keyboard_keys_not_working_f36/
+[^82D2.2]: https://linux-hardware.org/?probe=92f4dfc282&log=dmesg
+[^82D2.3]: https://linux-hardware.org/?probe=90e142cbe1&log=dmesg
+[^82D2.4]: https://linux-hardware.org/?probe=a8d6ad51af&log=dmesg
 [^82FX.1]: https://bbs.archlinux.org/viewtopic.php?id=273790
 [^82FX.2]: http://linux-hardware.org/?probe=1b8f927465&log=dmesg
 [^82G2+82NC]: https://wiki.archlinux.org/title/Lenovo_Yoga_14s_2021#Keyboard_not_functioning_properly
