@@ -55,10 +55,10 @@ Reboot the laptop for the patch to take effect.
 
 Note: If your machine isn't listed above, add an extra kernel parameter `atkbd.nogetid` in the boot loader.
 
-The source file `atkbd.c` is currently at [c99e3ac][1], which corresponds to kernel version `6.1` and above.
+The source file `atkbd.c` is currently at [c4c7eac][1], which corresponds to kernel version `6.5` and above.
 You may want to replace it with another version. It'll be automatically patched on installation.
 
-[1]: https://github.com/torvalds/linux/blob/c99e3ac632f9dfa4e363cf370dea7467ebb0f367/drivers/input/keyboard/atkbd.c
+[1]: https://github.com/torvalds/linux/blob/c4c7eac8ee78d896635ce05d7a1c3f813fcbe24c/drivers/input/keyboard/atkbd.c
 
 ## Problem details
 
