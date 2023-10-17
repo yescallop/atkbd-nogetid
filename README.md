@@ -11,7 +11,7 @@ Reports and/or illustrations (dmesg logs) of the problem are included in the foo
 - `82D1`: Yoga Slim 9 14ITL5[^82D1.1][^82D1.2]
 - `82D2`: IdeaPad Slim 9 14ITL5[^82D2.1][^82D2.2][^82D2.3][^82D2.4]
 - `82FX`: Yoga Slim 7 Pro 14ITL5[^82FX.1][^82FX.2]
-- `82G2`: Yoga 14sITL 2021[^82G2+82NC]
+- `82G2`: *Yoga 14sITL 2021*[^82G2+82NC][^82G2]
 - `82GH`: Lenovo XiaoXinPro 14ITL 2021[^82GH.1][^82GH.2]
 - `82NC`: *Yoga 14sIHU 2021*[^82G2+82NC] / Lenovo XiaoXinPro 14IHU 2021[^82NC.1][^82NC.2] / Yoga Slim 7 Pro 14IHU5[^82NC.3]
 - `82NH`: Yoga 14sIHU 2021 O / Yoga Slim 7 Pro 14IHU5 O[^82NH]
@@ -27,6 +27,7 @@ Reports and/or illustrations (dmesg logs) of the problem are included in the foo
 [^82FX.1]: https://bbs.archlinux.org/viewtopic.php?id=273790
 [^82FX.2]: http://linux-hardware.org/?probe=1b8f927465&log=dmesg
 [^82G2+82NC]: https://wiki.archlinux.org/title/Lenovo_Yoga_14s_2021#Keyboard_not_functioning_properly
+[^82G2]: https://bbs.archlinuxcn.org/viewtopic.php?pid=57412#p57412
 [^82GH.1]: https://forum.suse.org.cn/t/topic/14779
 [^82GH.2]: http://linux-hardware.org/?probe=bb63ba3801&log=dmesg
 [^82NC.1]: https://zhuanlan.zhihu.com/p/428327818
